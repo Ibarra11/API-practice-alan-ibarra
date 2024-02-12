@@ -42,7 +42,6 @@ async function deleteCar(req) {
 }
 
 async function updateCar(req) {
-  console.log(req.body);
   const allowedFields = ["make", "model", "year", "deletedFlag"];
 
   const filteredFields = Object.keys(req.body)
