@@ -70,6 +70,10 @@ async function deleteCarHandler(req, res) {
 
     // We want to ensure that the car that is being deleted belongs to the user
     if (car.user_id !== req.user.id) {
+      return res.sendStatus(401);
+    }
+    // We also want to ensure that the car is not already delted
+    if (car.deleted_flag) {
       return res.sendStatus(409);
     }
     await deleteCar(req);

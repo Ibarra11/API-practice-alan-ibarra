@@ -22,28 +22,30 @@ async function getCarById(req) {
 }
 
 async function getAllCars(req) {
-  const [cars] = await req.db.query("SELECT * FROM cars WHERE user_id=?", [
-    req.user.id,
-  ]);
-
+  console.log(req.user.id);
+  const [cars] = await req.db.query(
+    "SELECT * FROM cars WHERE user_id=? AND deleted_flag=?",
+    [req.user.id, false]
+  );
+  console.log(cars);
   return cars;
 }
 
 async function deleteCar(req) {
   await req.db.query(
     ` 
-        DELETE FROM cars
+        UPDATE cars
+        SET deleted_flag=?
         WHERE id=? AND user_id=?
     `,
-    [req.params.id, req.user.id]
+    [true, req.params.id, req.user.id]
   );
 
   return true;
 }
 
 async function updateCar(req) {
-  const allowedFields = ["make", "model", "year", "deletedFlag"];
-
+  const allowedFields = ["make", "model", "year", "deleted_flag"];
   const filteredFields = Object.keys(req.body)
     .filter((field) => allowedFields.includes(field))
     .reduce((acc, curr) => {
@@ -57,11 +59,9 @@ async function updateCar(req) {
   values.push(req.params.id);
   values.push(req.user.id);
   await req.db.query(
-    `
-    UPDATE cars
+    `UPDATE cars
     SET ${setFields}
-    WHERE id=? AND user_id=?
-    `,
+    WHERE id=? AND user_id=?`,
     values
   );
   return true;
