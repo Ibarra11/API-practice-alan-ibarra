@@ -5,8 +5,8 @@ const { requireAuth } = require("../middleware/requireAuth.middleware");
 
 const router = Router();
 
-router.use("/auth", authRouter);
-console.log(requireAuth);
-router.use("/cars", requireAuth, carsRouter);
+router.use("/api/auth", authRouter);
+
+router.use("/api/cars", requireAuth, carsRouter);
 
 module.exports = router;

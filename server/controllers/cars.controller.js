@@ -30,7 +30,10 @@ async function getAllCarsHandler(req, res) {
 
 async function createCarHandler(req, res) {
   try {
-    const result = await createCar(req);
+    const result = await createCar(req.db, {
+      ...req.body,
+      userId: req.user.id,
+    });
     if (!result) {
       return res.sendStatus(409);
     }

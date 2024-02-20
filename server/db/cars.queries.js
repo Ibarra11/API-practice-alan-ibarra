@@ -1,13 +1,13 @@
 // make, model, year, user_id
 
-async function createCar(req) {
-  const { make, model, year } = req.body;
+async function createCar(db, data) {
+  const { make, model, year, userId } = data;
 
-  await req.db.query(
+  await db.query(
     `INSERT INTO cars (make, model, year, user_id)
       VALUES(?,?,?,?)
     `,
-    [make, model, year, req.user.id]
+    [make, model, year, userId]
   );
   return true;
 }
@@ -22,12 +22,10 @@ async function getCarById(req) {
 }
 
 async function getAllCars(req) {
-  console.log(req.user.id);
   const [cars] = await req.db.query(
     "SELECT * FROM cars WHERE user_id=? AND deleted_flag=?",
     [req.user.id, false]
   );
-  console.log(cars);
   return cars;
 }
 

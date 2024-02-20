@@ -1,20 +1,35 @@
+const { reIssueAccessToken } = require("../db/auth.queries");
 const { verifyJWT } = require("../lib/auth");
-function requireAuth(req, res, next) {
-  const bearer = req.headers.authorization;
-  if (!bearer) {
+async function requireAuth(req, res, next) {
+  const accessToken = req.cookies.accessToken;
+
+  const refreshToken = req.cookies.refreshToken || req.headers["x-refresh"];
+  if (!accessToken) {
     return res.sendStatus(401);
   }
-  const [, token] = bearer.split(" ");
-  if (!token) {
-    return res.sendStatus(401);
+  const { payload, expired } = verifyJWT(accessToken);
+  if (payload) {
+    req.user = payload;
+    return next();
   }
-  try {
-    const user = verifyJWT(token, process.env.JWT_SECRET);
-    req.user = user;
-    next();
-  } catch (e) {
-    console.error(e);
-    return res.sendStatus(401);
+  if (expired && refreshToken) {
+    const newAccessToken = await reIssueAccessToken(req.db, { refreshToken });
+
+    if (newAccessToken) {
+      res.cookie("accessToken", accessToken, {
+        maxAge: 900000, // 15 mins
+        httpOnly: true,
+        domain: "localhost",
+        path: "/",
+        sameSite: "strict",
+        secure: false,
+      });
+      const payload = verifyJWT(newAccessToken);
+      req.user = payload;
+      next();
+    } else {
+      return res.sendStatus(401);
+    }
   }
 }
 
