@@ -4,7 +4,7 @@ async function requireAuth(req, res, next) {
   const accessToken = req.cookies.accessToken;
 
   const refreshToken = req.cookies.refreshToken || req.headers["x-refresh"];
-  if (!accessToken) {
+  if (!accessToken && !refreshToken) {
     return res.sendStatus(401);
   }
   const { payload, expired } = verifyJWT(accessToken);
@@ -14,9 +14,8 @@ async function requireAuth(req, res, next) {
   }
   if (expired && refreshToken) {
     const newAccessToken = await reIssueAccessToken(req.db, { refreshToken });
-
     if (newAccessToken) {
-      res.cookie("accessToken", accessToken, {
+      res.cookie("accessToken", newAccessToken, {
         maxAge: 900000, // 15 mins
         httpOnly: true,
         domain: "localhost",
@@ -26,7 +25,7 @@ async function requireAuth(req, res, next) {
       });
       const payload = verifyJWT(newAccessToken);
       req.user = payload;
-      next();
+      return next();
     } else {
       return res.sendStatus(401);
     }

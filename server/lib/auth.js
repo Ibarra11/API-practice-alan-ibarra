@@ -13,7 +13,10 @@ function verifyJWT(token) {
     const decoded = jwt.verify(token, process.env.PUBLIC_KEY);
     return { payload: decoded, expired: false };
   } catch (error) {
-    return { payload: null, expired: error.message.includes("jwt expired") };
+    return {
+      payload: null,
+      expired: error.message.includes("jwt expired") || !token,
+    };
   }
 }
 
