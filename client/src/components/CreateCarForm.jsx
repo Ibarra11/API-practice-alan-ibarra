@@ -1,27 +1,28 @@
-export async function action() {}
+import { useRevalidator } from "react-router-dom";
+import { createCar } from "../api/cars";
+import React from "react";
 
 export default function CreateCarForm() {
+  const [isCreating, setIsCreating] = React.useState(false);
+  const revalidator = useRevalidator();
   async function handleSubmit(e) {
+    if (isCreating) return;
+    setIsCreating(true);
     e.preventDefault();
     const formData = new FormData(e.target);
     const make = formData.get("make");
     const model = formData.get("model");
     const year = formData.get("year");
-
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/cars`, {
-      method: "POST",
-      body: JSON.stringify({
-        make,
-        model,
-        year,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.ok) {
-      window.location.reload();
+    try {
+      const car = await createCar({ make, model, year });
+      if (!car) {
+        throw new Error();
+      }
       e.target.reset();
+      revalidator.revalidate();
+    } catch (e) {
+    } finally {
+      setIsCreating(false);
     }
   }
   return (
@@ -77,7 +78,7 @@ export default function CreateCarForm() {
         </div>
       </div>
       <button className="bg-gray-700 text-gray-50 h-12 w-full rounded">
-        Create Car
+        {isCreating ? "Create Car" : "Creating Car"}
       </button>
     </form>
   );

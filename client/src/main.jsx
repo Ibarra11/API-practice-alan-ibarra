@@ -14,7 +14,7 @@ import Register from "./components/Auth/Register.jsx";
 import CarTable from "./components/CarTable.jsx";
 import MainLayout from "./components/MainLayout.jsx";
 import { checkAuth } from "./components/Auth/checkAuthLoader.js";
-import { getCars } from "./services/cars.js";
+import { getCars } from "./api/cars.js";
 
 const queryClient = new QueryClient();
 
