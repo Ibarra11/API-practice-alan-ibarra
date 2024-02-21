@@ -2,7 +2,6 @@ const { reIssueAccessToken } = require("../db/auth.queries");
 const { verifyJWT } = require("../lib/auth");
 async function requireAuth(req, res, next) {
   const accessToken = req.cookies.accessToken;
-
   const refreshToken = req.cookies.refreshToken || req.headers["x-refresh"];
   if (!accessToken && !refreshToken) {
     return res.sendStatus(401);
@@ -23,7 +22,7 @@ async function requireAuth(req, res, next) {
         sameSite: "strict",
         secure: false,
       });
-      const payload = verifyJWT(newAccessToken);
+      const { payload } = verifyJWT(newAccessToken);
       req.user = payload;
       return next();
     } else {

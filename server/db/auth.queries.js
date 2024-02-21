@@ -34,10 +34,11 @@ async function reIssueAccessToken(db, { refreshToken }) {
   const { payload, expired } = verifyJWT(refreshToken);
 
   if (expired) return false;
-  const user = await findUserById(db, { userId: payload.id });
+  const [user] = await findUserById(db, { userId: payload.id });
   if (!user) {
     return false;
   }
+
   const accessToken = signJWT(
     { id: user.id, username: user.username },
     process.env.ACCESS_TOKEN_TTL

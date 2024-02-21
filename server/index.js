@@ -3,7 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./routes/router");
 require("dotenv").config();
-const { db } = require("./db/connect");
+const { createConnection } = require("./lib/createConnection");
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -11,7 +11,15 @@ const port = process.env.PORT ?? 3000;
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(db);
+app.use(async (req, res, next) => {
+  try {
+    const db = await createConnection();
+    req.db = db;
+    next();
+  } catch (e) {
+    throw Error;
+  }
+});
 
 app.use(router);
 

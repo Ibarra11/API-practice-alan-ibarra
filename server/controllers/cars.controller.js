@@ -20,7 +20,7 @@ async function getCarByIdHandler(req, res) {
 
 async function getAllCarsHandler(req, res) {
   try {
-    const cars = await getAllCars(req);
+    const cars = await getAllCars(req.db, { userId: req.user.id });
     return res.send({ data: cars });
   } catch (e) {
     console.error(e);

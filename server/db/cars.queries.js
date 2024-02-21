@@ -1,5 +1,3 @@
-// make, model, year, user_id
-
 async function createCar(db, data) {
   const { make, model, year, userId } = data;
 
@@ -21,10 +19,10 @@ async function getCarById(req) {
   return car;
 }
 
-async function getAllCars(req) {
-  const [cars] = await req.db.query(
+async function getAllCars(db, { userId }) {
+  const [cars] = await db.query(
     "SELECT * FROM cars WHERE user_id=? AND deleted_flag=?",
-    [req.user.id, false]
+    [userId, 0]
   );
   return cars;
 }
