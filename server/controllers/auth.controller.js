@@ -104,6 +104,7 @@ async function findUserHandler(req, res) {
     maxAge: 900000, // 15 mins
     httpOnly: true,
     secure: false,
+    sameSite: "none",
     domain: process.env.RAILWAY_STATIC_URL,
   });
 
@@ -111,6 +112,7 @@ async function findUserHandler(req, res) {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
     secure: false,
+    sameSite: "none",
     domain: process.env.RAILWAY_STATIC_URL,
   });
 
