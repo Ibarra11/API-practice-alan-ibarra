@@ -89,8 +89,6 @@ async function findUserHandler(req, res) {
       .send({ message: "username and password don't match" });
   }
 
-  console.log("ACCESS TOKEN: ", process.env.ACCESS_TOKEN_TTL);
-  console.log("REFRESH TOKEN ", process.env.REFRESH_TOKEN_TTL);
   const accessToken = signJWT(
     {
       id: user.id,
@@ -105,6 +103,8 @@ async function findUserHandler(req, res) {
     },
     process.env.REFRESH_TOKEN_TTL
   );
+  console.log(accessToken);
+  console.log(refreshToken);
 
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
