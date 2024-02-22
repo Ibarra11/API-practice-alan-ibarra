@@ -111,6 +111,7 @@ async function findUserHandler(req, res) {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
     secure: false,
+    domain: process.env.RAILWAY_STATIC_URL,
   });
 
   return res.send({ accessToken, refreshToken });
