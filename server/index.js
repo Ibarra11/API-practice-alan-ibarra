@@ -22,6 +22,9 @@ app.use(async (req, res, next) => {
 });
 
 app.use(router);
+app.use((req, res, next, error) => {
+  return res.status(404).send("no routes");
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
