@@ -60,7 +60,7 @@ async function registerUserHandler(req, res) {
 }
 
 async function findUserHandler(req, res) {
-  console.log(process.env);
+  console.log(process.env.RAILWAY_STATIC_URL);
   const { username, password } = req.body;
   if (!username || !password) {
     return res
