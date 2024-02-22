@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 function signJWT(payload, expiresIn) {
-  console.log(process.env.PRIVATE_KEY);
-  console.log(process.env.PUBLIC_KEY);
   const token = jwt.sign(payload, process.env.PRIVATE_KEY, {
     algorithm: "RS256",
     expiresIn,

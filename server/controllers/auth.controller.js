@@ -45,18 +45,12 @@ async function registerUserHandler(req, res) {
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
     httpOnly: true,
-    domain: "localhost",
-    path: "/",
-    sameSite: "strict",
     secure: false,
   });
 
   res.cookie("refreshToken", refreshToken, {
-    maxAge: 3.154e10, // 1 year
+    maxAge: 6.048e8, // 7 days
     httpOnly: true,
-    domain: "localhost",
-    path: "/",
-    sameSite: "strict",
     secure: false,
   });
 
@@ -65,7 +59,6 @@ async function registerUserHandler(req, res) {
 
 async function findUserHandler(req, res) {
   const { username, password } = req.body;
-  console.log(req.body);
   if (!username || !password) {
     return res
       .status(401)
@@ -103,24 +96,18 @@ async function findUserHandler(req, res) {
     },
     process.env.REFRESH_TOKEN_TTL
   );
-  console.log(accessToken);
-  console.log(refreshToken);
 
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
     httpOnly: true,
-    domain: "localhost",
-    path: "/",
-    sameSite: "strict",
+
     secure: false,
   });
 
   res.cookie("refreshToken", refreshToken, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    domain: "localhost",
-    path: "/",
-    sameSite: "strict",
+
     secure: false,
   });
 
