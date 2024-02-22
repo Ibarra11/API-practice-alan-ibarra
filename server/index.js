@@ -8,7 +8,13 @@ const { createConnection } = require("./lib/createConnection");
 const app = express();
 const port = process.env.PORT ?? 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [`http://localhost:${port}`, process.env.RAILWAY_STATIC_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(async (req, res, next) => {
