@@ -10,7 +10,7 @@ const port = process.env.PORT ?? 3000;
 
 app.use(
   cors({
-    origin: [`http://localhost:${port}`, process.env.RAILWAY_STATIC_URL],
+    origin: [`http://localhost:${port}`, process.env.PRODUCTION_ORIGIN],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
