@@ -65,6 +65,7 @@ async function registerUserHandler(req, res) {
 
 async function findUserHandler(req, res) {
   const { username, password } = req.body;
+  console.log(req.body);
   if (!username || !password) {
     return res
       .status(401)
@@ -87,6 +88,9 @@ async function findUserHandler(req, res) {
       .status(401)
       .send({ message: "username and password don't match" });
   }
+
+  console.log("ACCESS TOKEN: ", process.env.ACCESS_TOKEN_TTL);
+  console.log("REFRESH TOKEN ", process.env.REFRESH_TOKEN_TTL);
   const accessToken = signJWT(
     {
       id: user.id,

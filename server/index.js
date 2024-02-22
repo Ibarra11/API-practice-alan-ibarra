@@ -22,8 +22,8 @@ app.use(async (req, res, next) => {
 });
 
 app.use(router);
-app.use((req, res, next, error) => {
-  return res.status(404).send("no routes");
+app.use((req, res, next) => {
+  return res.status(404).send("invalid path");
 });
 
 app.listen(port, () => {
