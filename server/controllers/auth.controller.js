@@ -102,14 +102,14 @@ async function findUserHandler(req, res) {
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "none",
   });
 
   res.cookie("refreshToken", refreshToken, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "none",
   });
 
