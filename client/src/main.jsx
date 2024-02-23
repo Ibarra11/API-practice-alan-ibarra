@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import {
   createBrowserRouter,
@@ -15,8 +14,6 @@ import CarTable from "./components/CarTable.jsx";
 import MainLayout from "./components/MainLayout.jsx";
 import { checkAuth } from "./components/Auth/checkAuthLoader.js";
 import { getCars } from "./api/cars.js";
-
-const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {

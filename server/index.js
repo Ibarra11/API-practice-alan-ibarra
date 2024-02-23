@@ -7,10 +7,10 @@ const { createConnection } = require("./lib/createConnection");
 
 const app = express();
 const port = process.env.PORT ?? 3000;
-
+console.log(process.env.PRODUCTION_ORIGIN);
 app.use(
   cors({
-    origin: [`http://localhost:${port}`, process.env.PRODUCTION_ORIGIN],
+    origin: [process.env.PRODUCTION_ORIGIN],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

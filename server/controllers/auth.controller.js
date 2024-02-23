@@ -61,6 +61,9 @@ async function registerUserHandler(req, res) {
 
 async function findUserHandler(req, res) {
   console.log(process.env);
+  console.log("------------------");
+  console.log("test");
+  console.log("------------------");
   const { username, password } = req.body;
   if (!username || !password) {
     return res
@@ -105,7 +108,7 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: false,
     sameSite: "none",
-    domain: process.env.RAILWAY_STATIC_URL,
+    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -113,7 +116,7 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: false,
     sameSite: "none",
-    domain: process.env.RAILWAY_STATIC_URL,
+    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   return res.send({ accessToken, refreshToken });
