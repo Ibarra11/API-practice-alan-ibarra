@@ -7,6 +7,7 @@ const { createConnection } = require("./lib/createConnection");
 
 const app = express();
 const port = process.env.PORT ?? 3000;
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: [`http://localhost:${port}`, process.env.PRODUCTION_ORIGIN],
