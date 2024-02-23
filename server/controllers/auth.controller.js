@@ -45,15 +45,15 @@ async function registerUserHandler(req, res) {
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
     httpOnly: true,
-    secure: false,
-    domain: process.env.RAILWAY_STATIC_URL,
+    secure: true,
+    sameSite: "none",
   });
 
   res.cookie("refreshToken", refreshToken, {
-    maxAge: 6.048e8, // 7 days
+    maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    secure: false,
-    domain: process.env.RAILWAY_STATIC_URL,
+    secure: true,
+    sameSite: "none",
   });
 
   return res.send({ accessToken, refreshToken });
@@ -104,7 +104,6 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -112,7 +111,6 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   return res.send({ accessToken, refreshToken });

@@ -13,6 +13,11 @@ app.use(
     origin: [`http://localhost:${port}`, process.env.PRODUCTION_ORIGIN],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    allowedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Content-Type",
+      "Auhtorization",
+    ],
   })
 );
 app.use(express.json());

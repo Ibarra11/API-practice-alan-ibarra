@@ -13,6 +13,8 @@ export default function Login() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin":
+          "https://api-practice-alan-ibarra.vercel.app/",
       },
       body: JSON.stringify({ username, password }),
       credentials: "include",
