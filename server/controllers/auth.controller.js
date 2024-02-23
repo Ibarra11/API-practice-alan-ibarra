@@ -104,6 +104,7 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   res.cookie("refreshToken", refreshToken, {
@@ -111,6 +112,7 @@ async function findUserHandler(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    domain: process.env.PRODUCTION_ORIGIN,
   });
 
   return res.send({ accessToken, refreshToken });
