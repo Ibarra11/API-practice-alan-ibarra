@@ -60,10 +60,6 @@ async function registerUserHandler(req, res) {
 }
 
 async function findUserHandler(req, res) {
-  console.log(process.env);
-  console.log("------------------");
-  console.log("test");
-  console.log("------------------");
   const { username, password } = req.body;
   if (!username || !password) {
     return res
@@ -106,7 +102,7 @@ async function findUserHandler(req, res) {
   res.cookie("accessToken", accessToken, {
     maxAge: 900000, // 15 mins
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "none",
     domain: process.env.PRODUCTION_ORIGIN,
   });
@@ -114,7 +110,7 @@ async function findUserHandler(req, res) {
   res.cookie("refreshToken", refreshToken, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "none",
     domain: process.env.PRODUCTION_ORIGIN,
   });
